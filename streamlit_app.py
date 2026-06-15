@@ -20,7 +20,7 @@ if menu == "Beranda":
 
     st.header("👨‍💻 Identitas Penyusun")
     st.write("**Kelompok 9**")
-    st.write("**Kelas : D4 Pengolahan Limbah Industri**")
+    st.write("**Kelas : 1F Pengolahan Limbah Industri**")
 
     st.table(pd.DataFrame({
         "Nama":[
