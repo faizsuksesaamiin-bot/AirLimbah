@@ -2,18 +2,18 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 
-# =====================================================
+# ==================================================
 # KONFIGURASI HALAMAN
-# =====================================================
+# ==================================================
 st.set_page_config(
     page_title="Sistem Evaluasi Baku Mutu Air Limbah",
     page_icon="💧",
     layout="wide"
 )
 
-# =====================================================
+# ==================================================
 # STORAGE RIWAYAT
-# =====================================================
+# ==================================================
 if "riwayat" not in st.session_state:
     st.session_state.riwayat = pd.DataFrame(
         columns=[
@@ -24,33 +24,31 @@ if "riwayat" not in st.session_state:
             "BOD (mg/L)",
             "COD (mg/L)",
             "TSS (mg/L)",
-            "NH3 (mg/L)",
-            "Status"
+            "NH3 (mg/L)"
         ]
     )
 
-# =====================================================
+# ==================================================
 # SIDEBAR
-# =====================================================
+# ==================================================
 menu = st.sidebar.radio(
-    "📌 Pilih Menu",
+    "📌 Menu",
     ["Beranda", "Sistem Evaluasi"]
 )
 
-# =====================================================
+# ==================================================
 # BERANDA
-# =====================================================
+# ==================================================
 if menu == "Beranda":
 
     st.title("💧 Sistem Evaluasi Baku Mutu Air Limbah")
 
     st.markdown("---")
 
-    # IDENTITAS
     st.header("👨‍💻 Identitas Penyusun")
 
     st.write("**Kelompok 9**")
-    st.write("**Kelas : D4 Pengolahan Limbah Industri**")
+    st.write("**Kelas : 1F Pengolahan Limbah Industri**")
 
     identitas = pd.DataFrame({
         "Nama": [
@@ -73,7 +71,6 @@ if menu == "Beranda":
 
     st.markdown("---")
 
-    # ACUAN
     st.header("📖 Acuan Baku Mutu")
 
     st.info("""
@@ -86,45 +83,42 @@ Tentang Baku Mutu Air Limbah Domestik
 
     st.markdown("---")
 
-    # PENJELASAN PARAMETER
     st.header("📚 Penjelasan Parameter Air Limbah")
 
     st.subheader("1. BOD (Biochemical Oxygen Demand)")
     st.write("""
-BOD adalah jumlah oksigen yang dibutuhkan mikroorganisme
-untuk menguraikan bahan organik dalam air limbah.
-
-Semakin tinggi nilai BOD maka semakin tinggi tingkat pencemaran organik.
+BOD adalah jumlah oksigen yang dibutuhkan oleh mikroorganisme untuk menguraikan bahan organik dalam air limbah.
 
 Baku Mutu : ≤ 30 mg/L
+
+Semakin tinggi nilai BOD maka semakin tinggi tingkat pencemaran organik.
 """)
 
     st.subheader("2. COD (Chemical Oxygen Demand)")
     st.write("""
-COD adalah jumlah oksigen yang diperlukan untuk mengoksidasi
-bahan pencemar secara kimia.
-
-Nilai COD yang tinggi menunjukkan banyaknya zat pencemar.
+COD adalah jumlah oksigen yang diperlukan untuk mengoksidasi bahan pencemar secara kimia.
 
 Baku Mutu : ≤ 100 mg/L
+
+Nilai COD yang tinggi menunjukkan banyaknya zat pencemar dalam air limbah.
 """)
 
     st.subheader("3. TSS (Total Suspended Solid)")
     st.write("""
 TSS merupakan jumlah padatan tersuspensi dalam air limbah.
 
-Nilai TSS yang tinggi dapat meningkatkan kekeruhan
-dan mengganggu ekosistem perairan.
-
 Baku Mutu : ≤ 30 mg/L
+
+Nilai TSS yang tinggi dapat meningkatkan kekeruhan dan mengganggu ekosistem perairan.
 """)
 
     st.subheader("4. NH₃ (Amonia)")
     st.write("""
-Amonia merupakan senyawa nitrogen yang dapat bersifat toksik
-bagi organisme perairan.
+Amonia merupakan senyawa nitrogen yang dapat bersifat toksik bagi organisme perairan.
 
 Baku Mutu : ≤ 10 mg/L
+
+Kadar amonia yang tinggi dapat menurunkan kualitas air.
 """)
 
     st.subheader("5. pH")
@@ -132,13 +126,15 @@ Baku Mutu : ≤ 10 mg/L
 pH menunjukkan tingkat keasaman atau kebasaan air.
 
 Baku Mutu : 6 - 9
+
+Nilai pH di luar rentang baku mutu dapat membahayakan organisme perairan.
 """)
 
     st.markdown("---")
 
     st.header("📋 Ringkasan Baku Mutu")
 
-    baku = pd.DataFrame({
+    st.table({
         "Parameter": ["BOD", "COD", "TSS", "NH₃", "pH"],
         "Baku Mutu": [
             "≤ 30 mg/L",
@@ -149,20 +145,17 @@ Baku Mutu : 6 - 9
         ]
     })
 
-    st.table(baku)
-
     st.caption(
-        "Satuan BOD, COD, TSS, dan NH₃ menggunakan mg/L (setara ppm untuk air)."
+        "Satuan BOD, COD, TSS, dan NH₃ menggunakan mg/L (setara ppm pada air)."
     )
 
-# =====================================================
+# ==================================================
 # SISTEM EVALUASI
-# =====================================================
+# ==================================================
 elif menu == "Sistem Evaluasi":
 
     st.title("🔍 Sistem Evaluasi Baku Mutu Air Limbah")
 
-    # INFORMASI SAMPEL
     st.header("📥 Informasi Sampel")
 
     col1, col2, col3 = st.columns(3)
@@ -171,9 +164,9 @@ elif menu == "Sistem Evaluasi":
         jenis_sampel = st.selectbox(
             "Jenis Sampel",
             [
-                "Limbah Domestik",
-                "Limbah Industri",
-                "Limbah Cair Laboratorium"
+                "LIMBAH DOMESTIK",
+                "LIMBAH INDUSTRI",
+                "LIMBAH CAIR LABORATORIUM"
             ]
         )
 
@@ -190,7 +183,6 @@ elif menu == "Sistem Evaluasi":
 
     st.markdown("---")
 
-    # INPUT PARAMETER
     st.header("🧪 Parameter Air Limbah")
 
     bod = st.number_input(
@@ -219,7 +211,6 @@ elif menu == "Sistem Evaluasi":
         max_value=14.0
     )
 
-    # BAKU MUTU
     baku_mutu = {
         "BOD": 30,
         "COD": 100,
@@ -229,7 +220,6 @@ elif menu == "Sistem Evaluasi":
         "pH_max": 9
     }
 
-    # EVALUASI
     if st.button("🔎 Evaluasi"):
 
         pelanggaran = []
@@ -256,13 +246,11 @@ elif menu == "Sistem Evaluasi":
         st.header("📋 Hasil Evaluasi")
 
         if len(pelanggaran) == 0:
-            status = "Memenuhi Baku Mutu"
             st.success("✅ Memenuhi Baku Mutu")
         else:
-            status = "Tidak Memenuhi Baku Mutu"
             st.error("❌ Tidak Memenuhi Baku Mutu")
 
-            st.subheader("Parameter yang Melampaui Baku Mutu")
+            st.subheader("Parameter yang Melampaui Batas")
 
             for p in pelanggaran:
                 st.write(f"• {p}")
@@ -271,36 +259,18 @@ elif menu == "Sistem Evaluasi":
             f"### Persentase Pelanggaran : {persentase:.2f}%"
         )
 
-        # SIMPAN RIWAYAT
-        data_baru = pd.DataFrame({
-            "Tanggal": [tanggal],
-            "Jenis Sampel": [jenis_sampel],
-            "Nama Penyampling": [penyampling],
-            "pH": [ph],
-            "BOD (mg/L)": [bod],
-            "COD (mg/L)": [cod],
-            "TSS (mg/L)": [tss],
-            "NH3 (mg/L)": [nh3],
-            "Status": [status]
-        })
-
-        st.session_state.riwayat = pd.concat(
-            [st.session_state.riwayat, data_baru],
-            ignore_index=True
-        )
-
         st.markdown("---")
 
         st.header("📊 Ringkasan Data")
 
-        ringkasan = pd.DataFrame({
+        hasil = pd.DataFrame({
             "Parameter": ["BOD", "COD", "TSS", "NH₃", "pH"],
-            "Hasil Uji": [
-                f"{bod} mg/L",
-                f"{cod} mg/L",
-                f"{tss} mg/L",
-                f"{nh3} mg/L",
-                f"{ph}"
+            "Nilai Hasil Uji": [
+                bod,
+                cod,
+                tss,
+                nh3,
+                ph
             ],
             "Baku Mutu": [
                 "≤ 30 mg/L",
@@ -311,7 +281,23 @@ elif menu == "Sistem Evaluasi":
             ]
         })
 
-        st.table(ringkasan)
+        st.table(hasil)
+
+        data_baru = pd.DataFrame({
+            "Tanggal": [tanggal],
+            "Jenis Sampel": [jenis_sampel],
+            "Nama Penyampling": [penyampling],
+            "pH": [ph],
+            "BOD (mg/L)": [bod],
+            "COD (mg/L)": [cod],
+            "TSS (mg/L)": [tss],
+            "NH3 (mg/L)": [nh3]
+        })
+
+        st.session_state.riwayat = pd.concat(
+            [st.session_state.riwayat, data_baru],
+            ignore_index=True
+        )
 
     st.markdown("---")
 
@@ -322,19 +308,5 @@ elif menu == "Sistem Evaluasi":
             st.session_state.riwayat,
             use_container_width=True
         )
-        # =====================================
-# DOWNLOAD CSV
-# =====================================
-
-csv = st.session_state.riwayat.to_csv(
-    index=False
-).encode("utf-8")
-
-st.download_button(
-    label="📥 Download Riwayat (CSV)",
-    data=csv,
-    file_name="riwayat_pengujian_air_limbah.csv",
-    mime="text/csv"
-)
     else:
         st.info("Belum ada data pengujian.")
