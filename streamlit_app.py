@@ -322,5 +322,19 @@ elif menu == "Sistem Evaluasi":
             st.session_state.riwayat,
             use_container_width=True
         )
+        # =====================================
+# DOWNLOAD CSV
+# =====================================
+
+csv = st.session_state.riwayat.to_csv(
+    index=False
+).encode("utf-8")
+
+st.download_button(
+    label="📥 Download Riwayat (CSV)",
+    data=csv,
+    file_name="riwayat_pengujian_air_limbah.csv",
+    mime="text/csv"
+)
     else:
         st.info("Belum ada data pengujian.")
